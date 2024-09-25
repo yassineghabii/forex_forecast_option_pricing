@@ -1,0 +1,78 @@
+<div class="container mt-5">
+  <h1 class="text-center">Modèle Garman-Kohlhagen pour les Options FX</h1>
+  <form (ngSubmit)="onSubmit()" #optionForm="ngForm" class="form-needs-validation" novalidate>
+    <div class="row justify-content-center">
+      <div class="col-md-4 mb-3">
+        <label for="ticker">Symbole de l'actif sous-jacent</label>
+        <select id="ticker" name="ticker" class="form-control" [(ngModel)]="formData.ticker" required>
+          <option *ngFor="let ticker of tickers" [value]="ticker">{{ ticker }}</option>
+        </select>
+      </div>
+      <div class="col-md-4 mb-3">
+        <label for="option_type">Type d'option (c pour call, p pour put)</label>
+        <select id="option_type" name="option_type" class="form-control" [(ngModel)]="formData.option_type" required>
+          <option value="c">Call</option>
+          <option value="p">Put</option>
+        </select>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-md-4 mb-3">
+        <label for="k">Prix d'exercice (K)</label>
+        <input type="number" id="k" name="k" min="0.01" step="0.01" [(ngModel)]="formData.k" class="form-control" required>
+      </div>
+      <div class="col-md-4 mb-3">
+        <label for="t">Temps avant l'échéance (T, en années)</label>
+        <input type="number" id="t" name="t" min="0.001" step="0.001" [(ngModel)]="formData.t" class="form-control" required>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-md-4 mb-3">
+        <label for="rf">Taux d'intérêt étranger (rf)</label>
+        <input type="number" id="rf" name="rf" min="-1" max="1" step="0.01" [(ngModel)]="formData.rf" class="form-control" required>
+      </div>
+      <div class="col-md-4 mb-3">
+        <label for="rd">Taux d'intérêt domestique (rd)</label>
+        <input type="number" id="rd" name="rd" min="-1" max="1" step="0.01" [(ngModel)]="formData.rd" class="form-control" required>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <button type="submit" class="btn btn-primary btn-lg">Calculer</button>
+    </div>
+  </form>
+
+  <div *ngIf="results" class="mt-4">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Résultats</h5>
+        <table class="table table-bordered table-hover">
+          <thead class="thead-dark">
+          <tr>
+            <th scope="col">Paramètre</th>
+            <th scope="col">Valeur</th>
+            <th scope="col">Graphique</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr><td>Prix actuel de l'actif sous-jacent</td><td>{{ results.current_price }}</td><td></td></tr>
+          <tr><td>Volatilité historique</td><td>{{ results.historical_volatility }}</td><td></td></tr>
+          <tr><td>Volatilité implicite</td><td>{{ results.implied_volatility }}</td><td></td></tr>
+          <tr><td>Prix de l'option avec volatilité implicite</td><td>{{ results.option_price_implied_vol }}</td><td></td></tr>
+          <tr><td>Delta</td><td>{{ results.delta }}</td><td><img [src]="results.plots.delta_plot" alt="Delta Plot" class="img-fluid"></td></tr>
+          <tr><td>Gamma</td><td>{{ results.gamma }}</td><td><img [src]="results.plots.gamma_plot" alt="Gamma Plot" class="img-fluid"></td></tr>
+          <tr><td>Theta</td><td>{{ results.theta }}</td><td><img [src]="results.plots.theta_plot" alt="Theta Plot" class="img-fluid"></td></tr>
+          <tr><td>Vega</td><td>{{ results.vega }}</td><td><img [src]="results.plots.vega_plot" alt="Vega Plot" class="img-fluid"></td></tr>
+          <tr><td>Rho (domestique)</td><td>{{ results.rho_domestic }}</td><td><img [src]="results.plots.rho_domestic_plot" alt="Rho Domestic Plot" class="img-fluid"></td></tr>
+          <tr><td>Rho (étranger)</td><td>{{ results.rho_foreign }}</td><td><img [src]="results.plots.rho_foreign_plot" alt="Rho Foreign Plot" class="img-fluid"></td></tr>
+          <tr><td>Omega</td><td>{{ results.omega }}</td><td><img [src]="results.plots.omega_plot" alt="Omega Plot" class="img-fluid"></td></tr>
+          <tr><td>Vanna</td><td>{{ results.vanna }}</td><td><img [src]="results.plots.vanna_plot" alt="Vanna Plot" class="img-fluid"></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger mt-4" role="alert">
+    {{ error }}
+  </div>
+</div>

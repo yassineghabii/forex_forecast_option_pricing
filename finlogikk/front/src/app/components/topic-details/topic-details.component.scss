@@ -1,0 +1,618 @@
+
+.forum-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-around; /* Centrer les blocs */
+    padding: 20px;
+  }
+
+  .forum-topic {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: calc(100% - 20px); /* Ajuster la largeur selon vos besoins */
+    margin-bottom: 20px;
+
+    h2 {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+    }
+
+    .topic-details {
+      font-size: 0.9em;
+      color: #777;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+
+      .likes {
+        margin-right: 10px;
+        cursor: pointer;
+
+        fa-icon {
+          color: #4CAF50;
+          font-size: 1.2em;
+          margin-right: 5px;
+        }
+      }
+
+      .dislikes {
+        margin-right: 10px;
+        cursor: pointer;
+
+        fa-icon {
+          color: rgb(202, 12, 12);
+          font-size: 1.2em;
+          margin-right: 5px;
+        }
+      }
+
+      .coments {
+        margin-right: 10px;
+        cursor: pointer;
+
+        fa-icon {
+          color: #2d88bd;
+          font-size: 1.2em;
+          margin-right: 5px;
+        }
+      }
+
+      .separator {
+        width: 1px;
+        height: 10px;
+        background-color: #ccc;
+        margin: 0 10px;
+      }
+
+      //.creation-date {
+      //  margin-left: auto; /* Aligner la date à droite */
+      //}
+
+      .delete {
+        margin-left: auto;
+        cursor: pointer;
+
+        fa-icon {
+          color: rgb(202, 12, 12);
+          font-size: 1.2em;
+          margin-left: 5px;
+        }
+      }
+
+
+    }
+
+    button {
+      margin-top: 10px;
+    }
+
+
+  }
+
+
+  .forum-post {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: calc(85% - 20px); /* Ajuster la largeur selon vos besoins */
+    margin-bottom: 20px;
+    margin-left: auto;
+
+    h2 {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+    }
+
+    .post-details {
+      font-size: 0.9em;
+      color: #777;
+      display: flex;
+      align-items: center;
+
+      .likes {
+        margin-right: 10px;
+        cursor: pointer;
+
+        fa-icon {
+          color: #4CAF50; // Couleur verte pour indiquer le like
+          font-size: 1.2em; // Taille de l'icône
+          margin-right: 5px;
+        }
+      }
+
+      .dislikes {
+        margin-right: 10px;
+        cursor: pointer;
+
+        fa-icon {
+          color: rgb(202, 12, 12);
+          font-size: 1.2em;
+          margin-right: 5px;
+        }
+      }
+
+      .coments {
+        margin-right: 10px;
+        cursor: pointer;
+
+        fa-icon {
+          color: #2d88bd;
+          font-size: 1.2em;
+          margin-right: 5px;
+        }
+      }
+
+      .separator {
+        width: 1px;
+        height: 10px;
+        background-color: #ccc;
+        margin: 0 10px;
+      }
+
+      .delete {
+        margin-left: auto;
+        cursor: pointer;
+
+        fa-icon {
+          font-size: 1.2em;
+          margin-left: 5px;
+        }
+      }
+
+    //   .edit {
+    //     margin-left: auto;
+    //     cursor: pointer;
+
+    //     fa-icon {
+    //       color: rgb(14, 116, 199);
+    //       font-size: 1.2em;
+    //       margin-left: 5px;
+    //     }
+    //   }
+
+
+    .comments-container {
+        max-height: 200px; /* Hauteur maximale du conteneur avec barre de défilement */
+        overflow-y: auto; /* Activation de la barre de défilement en cas de dépassement de la hauteur maximale */
+        margin-top: 10px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      /* Ajoutez ces styles à votre fichier CSS du composant ou à votre fichier global styles.css */
+
+    /* Styles pour le modal des commentaires */
+    .modal-content {
+        border-radius: 10px; /* Coins arrondis */
+      }
+
+      /* Styles pour les blocs de commentaires */
+      .comment {
+        background-color: #f0f0f0; /* Couleur de fond gris clair */
+        border-radius: 10px; /* Coins arrondis */
+        margin-bottom: 10px; /* Marge en bas entre les commentaires */
+        padding: 10px; /* Espacement interne */
+      }
+
+      .comment h5 {
+        margin-bottom: 5px; /* Marge en bas pour le titre du commentaire */
+      }
+
+    }
+
+    button {
+      margin-top: 10px;
+    }
+
+
+  }
+
+  .comments-container {
+    max-height: 200px; /* Hauteur maximale du conteneur avec barre de défilement */
+    overflow-y: auto; /* Activation de la barre de défilement en cas de dépassement de la hauteur maximale */
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  /* Ajoutez ces styles à votre fichier CSS du composant ou à votre fichier global styles.css */
+
+/* Styles pour le modal des commentaires */
+
+
+  /* Styles pour les blocs de commentaires */
+  .comment {
+    background-color: #f0f0f0; /* Couleur de fond gris clair */
+    border-radius: 10px; /* Coins arrondis */
+    margin-bottom: 10px; /* Marge en bas entre les commentaires */
+    padding: 10px; /* Espacement interne */
+  }
+
+  .comment h5 {
+    margin-bottom: 5px; /* Marge en bas pour le titre du commentaire */
+  }
+
+
+  .edit-delete-container {
+    display: flex;
+    flex-direction: column; /* Pour empiler les boutons verticalement */
+    align-items: center; /* Pour les centrer horizontalement */
+  }
+
+  .edit-delete-container button {
+    margin-bottom: 5px; /* Ajoutez une marge entre les boutons si nécessaire */
+  }
+
+  .modal-above-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    transform: translate(0, -100%);
+    z-index: 1050; /* Ensure a higher z-index than the modal backdrop */
+  }
+
+  .comment-details {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+
+  .separator {
+    width: 1px;
+    height: 10px;
+    background-color: #ccc;
+    margin: 0 1px;
+  }
+
+  .modal-body p {
+    cursor: pointer;
+    color: black; /* Couleur de texte par défaut */
+    text-decoration: none; /* Pas de soulignement par défaut */
+  }
+
+  .modal-body p:hover {
+    color: blue; /* Couleur du texte au survol */
+    text-decoration: underline; /* Soulignement au survol */
+  }
+
+
+  .detdelete,
+.detedit {
+  cursor: pointer;
+  text-decoration: none;
+
+  font-size: 16px;
+}
+
+.detdelete:hover {
+  color: red;
+  text-decoration: underline;
+
+}
+
+.detedit:hover {
+  color: blue;
+  text-decoration: underline;
+
+}
+
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px; /* Adjust as needed */
+  }
+
+  .custom-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .custom-pagination li {
+    list-style: none;
+    display: inline-block;
+    margin: 0 4px;
+  }
+
+  .custom-pagination a {
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 20px;
+    text-decoration: none;
+    color: #333;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  .custom-pagination a:hover {
+    background-color: #ddd;
+    color: #000;
+    cursor: pointer;
+  }
+
+  .custom-pagination .current {
+    background-color: #f4555a;
+    color: #fff;
+  }
+
+
+  .card {
+    width: 100%;
+    box-sizing: border-box; /* Include padding and border in the total width/height */
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px; /* Adjust padding as needed */
+    box-sizing: border-box;
+}
+
+.title {
+    font-weight: bold;
+    margin: 0; /* Remove default margin for h2 */
+}
+
+
+.forum-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-around;
+    padding: 20px;
+    box-sizing: border-box; /* Include padding and border in the total width/height */
+}
+
+.forum-topic {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: calc(100% - 20px);
+    margin-bottom: 20px;
+    box-sizing: border-box; /* Include padding and border in the total width/height */
+
+    h2 {
+        font-size: 1.5em;
+        margin-bottom: 10px;
+    }
+
+    //.topic-details {
+    //    font-size: 0.9em;
+    //    color: #777;
+    //    display: flex;
+    //    align-items: center;
+    //
+    //    /* Your existing styles for .topic-details */
+    //}
+
+    button {
+        margin-top: 10px;
+    }
+}
+
+
+
+.close {
+  align-self: flex-end; /* Alignez le bouton Close à la fin (tout à droite) de la première ligne */
+}
+
+.sub-header {
+  display: flex;
+  justify-content: space-between; /* Étirez les éléments au début et à la fin de la deuxième ligne */
+  align-items: center;
+}
+
+
+
+
+
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  color: #fff;
+  border-bottom: 1px solid #ddd;
+
+  .sub-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; /* Utiliser la largeur complète de la première ligne */
+  }
+
+  h5.modal-title {
+    margin: 0;
+  }
+
+  button.close {
+  background-color: #ffffff;
+  color: #000000;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  border-radius: 50%; /* Make it a circle */
+  width: 30px; /* Set a specific width */
+  height: 30px; /* Set a specific height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.3s, background-color 0.3s;
+  }
+
+  button.close:hover {
+    color: #ffffff;
+    background-color: #e0e0e0; /* Adjust as needed */
+  }
+
+}
+
+.modal-headerr {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-end;
+  background-color: #ffffff;
+  color: #fff;
+  border-bottom: 1px solid #ddd;
+  padding: 10px;
+
+  .sub-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; /* Utiliser la largeur complète de la première ligne */
+    margin-bottom: 10px;
+  }
+
+  h5.modal-title {
+    margin: 0;
+  }
+
+  button.close {
+  background-color: #ffffff;
+  color: #000000;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  border-radius: 50%; /* Make it a circle */
+  width: 30px; /* Set a specific width */
+  height: 30px; /* Set a specific height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.3s, background-color 0.3s;
+  }
+
+  button.close:hover {
+    color: #ffffff;
+    background-color: #e0e0e0; /* Adjust as needed */
+  }
+
+}
+
+
+
+
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+
+.btn-add {
+  background-color: #ffffff;
+  color: #4CAF50;
+  border: 1px solid #4CAF50;
+  border-radius: 20px;
+  transition: background-color 0.3s, color 0.3s;
+ }
+
+ .btn-cancel {
+  background-color: #ffffff;
+  color: #dc3545;
+  border: 1px solid #dc3545;
+  border-radius: 20px;
+  transition: background-color 0.3s, color 0.3s;
+ }
+
+ .btn-update {
+  background-color: #ffffff;
+  color: rgb(14, 116, 199);
+  border: 1px solid rgb(14, 116, 199);
+  border-radius: 20px;
+  transition: background-color 0.3s, color 0.3s;
+ }
+
+.btn-add:hover{
+background-color: #4CAF50;
+color: #ffffff;
+}
+
+
+.btn-cancel:hover {
+background-color: #dc3545;
+color: #ffffff;
+}
+
+.btn-update:hover {
+  background-color: rgb(14, 116, 199);
+  color: #ffffff;
+  }
+
+
+  .likes {
+    margin-right: 10px;
+    cursor: pointer;
+
+    fa-icon {
+      color: #4CAF50;
+      font-size: 1.2em;
+      margin-right: 5px;
+    }
+  }
+
+  .dislikes {
+    margin-right: 10px;
+    cursor: pointer;
+
+    fa-icon {
+      color: rgb(202, 12, 12);
+      font-size: 1.2em;
+      margin-right: 5px;
+    }
+  }
+
+  .bars {
+    margin-left: auto;
+    cursor: pointer;
+
+    fa-icon {
+      font-size: 1.2em;
+      margin-left: 5px;
+    }
+  }
+
+  .modified {
+    margin-left: auto;
+
+    fa-icon {
+      font-size: 1.2em;
+      margin-left: 5px;
+    }
+  }
+
+  .creation-date{
+    margin-right: auto;
+
+  }
+
+.comment-header {
+  display: flex;
+  justify-content: space-between; /* Espace entre le contenu et la date */
+  align-items: center; /* Aligner verticalement */
+}
+
+.comment-header h5 {
+  margin: 0; /* Retirer la marge par défaut */
+}
+
+.creation-datee {
+  margin-left: auto; /* Aligner la date à droite */
+  color: #777; /* Couleur plus claire pour la date */
+  font-size: 0.7em; /* Taille de police plus petite */
+}
+

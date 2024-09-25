@@ -1,0 +1,52 @@
+/* Structure générale de la page */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Prendre toute la hauteur de la fenêtre */
+}
+
+.wrapper {
+  flex: 1; /* Le contenu s'étend pour occuper l'espace disponible */
+}
+
+/* Le footer reste collé en bas */
+.footer {
+  background-color: #152440; /* Couleur de fond du footer */
+  color: white;
+  padding: 10px 0;
+  width: 100%;
+  position: relative;
+  bottom: 0;
+}
+
+/* Disposer les infos de contact en une seule ligne */
+.contact-info {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  text-align: left;
+  flex-wrap: wrap; /* Permettre l'enroulement si l'écran est trop petit */
+}
+
+.contact-info h5 {
+  margin-bottom: 0; /* Supprime la marge du h5 pour plus de proximité avec les autres éléments */
+}
+
+.contact-info p {
+  margin: 0; /* Supprime les marges entre les paragraphes */
+  padding: 1px 0; /* Réduit encore l'espace entre les éléments */
+  white-space: nowrap; /* Empêche le retour à la ligne */
+}
+
+/* Style pour les icônes */
+.contact-info i {
+  margin-right: 5px;
+}

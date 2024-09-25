@@ -1,0 +1,141 @@
+services:
+  postgres:
+    container_name: finlogik-postgres
+    image: postgres
+    environment:
+      POSTGRES_USER: atou26ag
+      POSTGRES_PASSWORD: qsdffdsq26
+      PGDATA: /var/lib/postgresql/data
+      POSTGRES_DB: finlogikk
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - heroku-network
+    restart: always
+
+  keycloak:
+    container_name: finlogik-keycloak
+    image: quay.io/keycloak/keycloak:25.0.2
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://finlogik-postgres:5432/finlogikk
+      KC_DB_USERNAME: atou26ag
+      KC_DB_PASSWORD: qsdffdsq26
+      KEYCLOAK_IMPORT: /opt/keycloak/data/import/finlogik.json  
+    volumes:
+      - keycloak:/opt/keycloak/data
+      - ./finlogikk/keycloak/realm:/opt/keycloak/data/import  
+      - ./finlogikk/keycloak/themes:/opt/keycloak/themes  
+    ports:
+      - "9090:8080"
+    networks:
+      - heroku-network
+    command:
+      - "start-dev"
+    restart: always
+
+  springboot:
+    container_name: finlogik-springboot
+    build: C:/Users/hp/Desktop/projetpfe/finlogikk/back
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://finlogik-postgres:5432/finlogikk
+      - SPRING_DATASOURCE_USERNAME=atou26ag
+      - SPRING_DATASOURCE_PASSWORD=qsdffdsq26
+    depends_on:
+      - postgres
+    networks:
+      - heroku-network
+    restart: always
+
+  angular:
+    container_name: finlogik-angular
+    build: C:/Users/hp/Desktop/projetpfe/finlogikk/front
+    ports:
+      - "4200:80"
+    networks:
+      - heroku-network
+    restart: always
+
+  flask-app:
+    container_name: finlogik-flask
+    build: C:/Users/hp/Desktop/projetpfe/GarmanKohlhagen/.venv
+    environment:
+      - SQLALCHEMY_DATABASE_URI=postgresql://atou26ag:qsdffdsq26@finlogik-postgres:5432/finlogikk
+      - FLASK_APP=app.py
+    networks:
+      - heroku-network
+    ports:
+      - "5000:5000"
+      - "8501:8501"
+      - "8502:8502"
+    restart: always
+
+  redis:
+    container_name: finlogik-redis
+    image: "redis:latest"
+    ports:
+      - "6379:6379"
+    networks:
+      - heroku-network
+    restart: always
+
+  celery_worker:
+    container_name: finlogik-celery-worker
+    build: C:/Users/hp/Desktop/projetpfe/GarmanKohlhagen/.venv
+    command: celery -A app.celery worker --loglevel=info --concurrency=1
+    depends_on:
+      - redis
+      - flask-app
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    networks:
+      - heroku-network
+    volumes:
+      - C:/Users/hp/PycharmProjects/GarmanKohlhagen/.venv:/app
+    restart: always
+
+  celery_beat:
+    container_name: finlogik-celery-beat
+    build: C:/Users/hp/Desktop/projetpfe/GarmanKohlhagen/.venv
+    command: celery -A app.celery beat --loglevel=info
+    depends_on:
+      - redis
+      - flask-app
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    networks:
+      - heroku-network
+    volumes:
+      - C:/Users/hp/PycharmProjects/GarmanKohlhagen/.venv:/app
+    restart: always
+
+  flower:
+    container_name: finlogik-flower
+    image: mher/flower
+    command: celery --broker=redis://redis:6379/0 flower
+    depends_on:
+      - redis
+      - celery_worker
+    ports:
+      - "5555:5555"
+    networks:
+      - heroku-network
+    restart: always
+
+volumes:
+  postgres:
+    driver: local
+  keycloak:  
+    driver: local
+
+networks:
+  heroku-network:
+    external: true

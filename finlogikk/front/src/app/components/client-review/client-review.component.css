@@ -1,0 +1,15 @@
+.carousel {
+  margin-top: 50px;
+}
+.carousel-inner {
+}
+.carousel-caption {
+  color: #fff;
+  top: 50%;
+}
+.testimonial-name {
+  display: block;
+  margin-top: 10px;   /* ajustez cette valeur selon vos besoins */
+  font-size: 0.9em;   /* ajustez cette valeur selon vos besoins */
+  font-weight: bold;  /* ajustez cette valeur selon vos besoins */
+}

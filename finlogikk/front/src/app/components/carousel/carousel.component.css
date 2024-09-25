@@ -1,0 +1,17 @@
+.carousel-text {
+  margin-top: 100px;
+}
+
+/* .carousel-inner {
+  width: 50%;
+  max-height: 200px !important;
+} */
+
+/* .carousel-inner > .item > img,
+.carousel-inner > .item > a > img {
+  min-height: 500px; /* Set slide height here 
+} */
+
+.carousel-item {
+  height: 600px !important;
+}

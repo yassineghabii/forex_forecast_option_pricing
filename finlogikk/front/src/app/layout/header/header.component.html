@@ -1,0 +1,57 @@
+<!-- Navbar Start -->
+<nav class="navbar sticky-top navbar-expand-lg bg-white navbar-light shadow-sm px-5 py-3 py-lg-0">
+  <a href="**" class="navbar-brand p-0">
+    <img src="assets/images/finlogiklogo.gif" alt="tradehub Logo" width="150" height="60">
+  </a>
+
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+    <!-- Center the buttons -->
+    <ul class="navbar-nav mx-auto">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/option-pricing">Option Pricing</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/prevision">Forex Forecast</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/stock-dashboard">Forex Dashboard</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/topic">Discussion Hub</a>
+      </li>
+    </ul>
+
+        <div *ngIf="isAuthenticated" class="dropdown nav-item" style="display: flex; align-items: center;">
+          <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" id="dropdownUserProfile" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="welcome-message">{{ profileName }}</span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUserProfile">
+            <a class="dropdown-item d-flex align-items-center text-danger" (click)="navigateToProfile()" style="gap: .5rem; cursor: pointer;">
+              <i class="fa fa-user" style="font-size: .875rem;"></i>
+              <span style="font-size: .875rem;">Profil</span>
+            </a>
+            <a class="dropdown-item d-flex align-items-center text-danger" (click)="logout()" style="gap: .5rem; cursor: pointer;">
+              <i class="fa fa-sign-out-alt" style="font-size: .875rem;"></i>
+              <span style="font-size: .875rem;">Se Déconnecter</span>
+            </a>
+          </div>
+        </div>
+
+      <div class="dropdown nav-item" *ngIf="!isAuthenticated" >
+        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Connexion
+        </button>
+        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item d-flex align-items-center text-danger" style="gap: .5rem;" (click)="keycloakService.login()">
+            <span style="font-size: .875rem; align-items: center;">Se Connecter</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+</nav>
+<!-- Navbar End -->

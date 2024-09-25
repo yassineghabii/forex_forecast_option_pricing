@@ -1,0 +1,53 @@
+<div class="container-fluid py-6 px-5">
+  <div class="text-center mx-auto mb-5" style="max-width: 600px;">
+    <h1 class="display-5 mb-0">Why Choose Us?</h1>
+    <hr class="w-25 mx-auto bg-primary">
+  </div>
+
+  <div class="row g-5">
+    <!-- Left part for services (two-thirds of the page) -->
+    <div class="col-lg-8">
+      <div class="row g-5 mb-4">
+        <div class="col-lg-6">
+          <app-chooes-us-box [data]="servcies[0]"></app-chooes-us-box>
+        </div>
+        <div class="col-lg-6">
+          <app-chooes-us-box [data]="servcies[1]"></app-chooes-us-box>
+        </div>
+      </div>
+
+      <div class="row g-5 mb-4">
+        <div class="col-lg-6">
+          <app-chooes-us-box [data]="servcies[2]"></app-chooes-us-box>
+        </div>
+        <div class="col-lg-6">
+          <app-chooes-us-box [data]="serviceTwo[0]"></app-chooes-us-box>
+        </div>
+      </div>
+
+      <div class="row g-5 mb-4">
+        <div class="col-lg-6">
+          <app-chooes-us-box [data]="serviceTwo[1]"></app-chooes-us-box>
+        </div>
+        <div class="col-lg-6">
+          <app-chooes-us-box [data]="serviceTwo[2]"></app-chooes-us-box>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right part for the image and description (one-third of the page) -->
+    <div class="col-lg-4">
+      <div class="d-block bg-primary h-100 text-center">
+        <img class="img-fluid" src="../../../assets/images/33.png" alt="" width="300" height="200">
+        <div class="p-4">
+          <p class="text-white mb-4">
+            Explore new possibilities in the world of finance with our platform for exchange rate prediction and market analysis. Powered by advanced algorithms and accurate predictive models, our tool enables you to make informed decisions in real-time. Whether you're looking to anticipate currency market fluctuations or benefit from in-depth technical analysis, our platform is designed to meet your needs.
+
+            Let our technology guide you through the complexities of the market while optimizing your investment strategies. With an intuitive interface and comprehensive insights, even beginner users can fully capitalize on the opportunities offered by the financial markets. Don’t wait any longer, stay ahead of the competition, and harness the power of innovation to achieve your financial goals with confidence.
+          </p>
+          <a href="prevision" class="btn btn-light py-md-3 px-md-5 rounded-pill mb-2">Learn more</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

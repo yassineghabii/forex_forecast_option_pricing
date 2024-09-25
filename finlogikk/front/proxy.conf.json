@@ -1,0 +1,11 @@
+{
+  "/streamlit": {
+    "target": "https://sentiment-analysis-app-dashboard.streamlit.app",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/streamlit": ""
+    }
+  }
+}
+

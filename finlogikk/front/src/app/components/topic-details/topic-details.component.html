@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <h2 class="title">Topic :</h2>
+                        <td><button type="submit" class="btn btn-add" (click)="openModal1(content1)">Add Post</button></td>
+                    </div>
+                    <div *ngIf="topicDetails" style="margin-left: 25px;">
+                        <h4>{{ topicDetails.title }}</h4>
+                    </div>
+                <div class="content">
+
+  <!-- <div class="forum-container">
+    <div *ngIf="topicDetails" class="forum-topic">
+      <h1>Topic :</h1>
+      <h3>{{ topicDetails.title }}</h3>
+      <div class="topic-details">
+        <span class="likes" (click)="likeTopic(topicDetails.idTopic)">
+            <fa-icon [icon]="faThumbsUp"></fa-icon> {{ topicDetails.likes }} Likes
+        </span>
+        <span class="separator"></span>
+        <span class="creation-date">{{ topicDetails.creationDate | date:'MMM d, y, h:mm a' }}</span>
+
+        <span class="delete">
+            <fa-icon [icon]="faTrashAlt" (click)="confirmerSuppression2(topicDetails.idTopic)"></fa-icon>
+        </span>
+      </div>
+    </div>
+  </div> -->
+
+  <div class="forum-container">
+    <div *ngIf="topicDetails" class="forum-topic">
+      <h3 class="title">Question :</h3>
+      <h4>{{ topicDetails.question }}</h4>
+      <div class="topic-details">
+        <!-- <span class="likes" (click)="likeTopic(topicDetails.idTopic)">
+            <fa-icon [icon]="faThumbsUp"></fa-icon>
+            {{ topicDetails.likes }} {{ topicDetails.likes === 1 ? 'Like' : 'Likes' }}
+        </span> -->
+        <span class="creation-date">{{ topicDetails.creationDate | date: 'yyyy-MM-dd' }} - {{ topicDetails.creationDate | date: 'HH:mm' }}</span>
+
+        <span class="delete" *ngIf="isCurrentUserOwner(topicDetails)">
+            <fa-icon [icon]="faTrashAlt" (click)="confirmerSuppression2(topicDetails.idTopic)"></fa-icon>
+        </span>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <div class="forum-container">
+    <div *ngFor="let post of posts | paginate: { itemsPerPage: pageSize, currentPage: currentPage, totalItems: posts.length }" class="forum-post">
+      <h5>{{ post.content }}</h5>
+      <div class="post-details">
+
+          <span class="likes">
+            <fa-icon [icon]="post.userVoteStatus1  === 'LIKE' ? faThumbsUpp : faThumbsUp" (click)="votelikeP(post.idPost)"></fa-icon>
+            {{ post.likes }}  {{ post.likes === 1 ? 'Like' : 'Likes' }}
+        </span>
+        <span class="separator"></span>
+        <span class="dislikes">
+            <fa-icon [icon]="post.userVoteStatus1  === 'DISLIKE' ? faThumbsDownn : faThumbsDown" (click)="votedislikeP(post.idPost)"></fa-icon>
+            {{ post.dislikes }}  {{ post.dislikes === 1 ? 'Dislike' : 'Dislike' }}
+        </span>
+
+        <span class="separator"></span>
+        <span class="coments" (click)="showCommentsModal(post, content3)">
+            <fa-icon [icon]="faComments"></fa-icon>
+            Comment ({{ post.commentCount }})
+        </span>
+
+        <span class="separator"></span>
+        <span class="creation-date">{{ post.creationDate | date: 'yyyy-MM-dd' }} - {{ post.creationDate | date: 'HH:mm' }}</span>
+
+
+        <ng-template #content3 let-c="close" let-d="dismiss">
+
+                <div class="modal-headerr">
+
+                    <button type="button" class="close" (click)="d('Cross click')" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+
+
+                    <div class="sub-header">
+                  <h5 class="modal-title" id="commentModalLabel">Comments</h5>
+                  <div class="header-buttons">
+                  <button type="submit" class="btn btn-add" (click)="openModal2(content2)">Add Comment</button>
+                </div>
+                </div>
+              </div>
+
+
+                <div class="modal-body">
+
+                  <div *ngFor="let comment of coments " class="comment">
+
+                    <div class="comment-header">
+                    <h5>{{ comment.content }}</h5>
+                    <span class="creation-datee">{{ comment.creationDate | date: 'yyyy-MM-dd' }} - {{ comment.creationDate | date: 'HH:mm' }}</span>
+                    </div>
+
+                    <div class="comment-details">
+                    <span class="likes">
+                      <fa-icon [icon]="comment.userVoteStatus2  === 'LIKE' ? faThumbsUpp : faThumbsUp" (click)="votelikeC(comment.idComment)"></fa-icon>
+                      {{ comment.likes }}  {{ comment.likes === 1 ? 'Like' : 'Likes' }}
+                  </span>
+                  <span class="separator"></span>
+                  <span class="dislikes">
+                      <fa-icon [icon]="comment.userVoteStatus2  === 'DISLIKE' ? faThumbsDownn : faThumbsDown" (click)="votedislikeC(comment.idComment)"></fa-icon>
+                      {{ comment.dislikes }}  {{ comment.dislikes === 1 ? 'Dislikes' : 'Dislikes' }}
+                  </span>
+
+                    <span class="separator"></span>
+
+                    <span class="modified">
+
+                        <span class="modified" *ngIf="comment.modified"> modified </span>
+                        <span class="separator" *ngIf="comment.modified"></span>
+                        <fa-icon class="bars" [icon]="faBars" (click)="openModal6(content6)" *ngIf="isCurrentUserOwner2(comment)"></fa-icon>
+                        <!-- <fa-icon [icon]="faTrashAlt" (click)="deleteComment(comment.idComment)" style="color: rgb(202, 12, 12);"></fa-icon> -->
+                    </span>
+
+
+                    <ng-template #content6 let-c="close" let-d="dismiss">
+
+                      <div class="modal-header text-center">
+                        <h5 class="modal-title"> Comment </h5>
+          <button type="button" class="close" (click)="d('Cross click')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+                      </div>
+                            <div class="modal-body text-center">
+                                <span class="detdelete" (click)="confirmerSuppression1(comment.idComment)">
+                              <fa-icon [icon]="faTrashAlt" style="color: rgb(202, 12, 12);"></fa-icon> Delete
+                            </span>
+                            <br>
+                  <span class="detedit" (click)="edit1(comment, content7)">
+                  <fa-icon [icon]="faEdit" style="color: rgb(14, 116, 199);"></fa-icon> Edit
+                </span>
+                            </div>
+
+                          </ng-template>
+
+                    </div>
+
+                  </div>
+                </div>
+
+
+
+              </ng-template>
+
+
+
+          <span class="delete">
+            <span class="modified" *ngIf="post.modified"> modified </span>
+            <span class="separator" *ngIf="post.modified"></span>
+          <fa-icon [icon]="faBars" (click)="openModal4(content4)" *ngIf="isCurrentUserOwner1(post)"></fa-icon>
+        </span>
+
+
+        <ng-template #content4 let-c="close" let-d="dismiss">
+
+                <div class="modal-header text-center">
+                  <h5 class="modal-title"> Post </h5>
+    <button type="button" class="close" (click)="d('Cross click')" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <span class="detdelete" (click)="confirmerSuppression(post.idPost)">
+                  <!-- <p (click)="confirmerSuppression(post.idPost)">Delete</p> -->
+                  <fa-icon [icon]="faTrashAlt" style="color: rgb(202, 12, 12);"></fa-icon> Delete
+                </span>
+                <br>
+                  <span class="detedit" (click)="edit(post, content5)">
+                  <fa-icon [icon]="faEdit" style="color: rgb(14, 116, 199);"></fa-icon> Edit
+                  <!-- <p data-toggle="modal" data-target="#exampleModal" (click)="edit(post)">Edit</p> -->
+                </span>
+                </div>
+
+              </ng-template>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="pagination-container">
+    <pagination-controls class="custom-pagination" (pageChange)="currentPage = $event"></pagination-controls>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<ng-template #content5 let-c="close" let-d="dismiss">
+
+  <div class="modal-header">
+    <h5 class="modal-title">Update Post </h5>
+    <button type="button" class="close" (click)="d('Cross click')" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+        <div class="modal-body">
+            <form #updateForm="ngForm" (ngSubmit)="updatePost()">
+
+                <div class="form-group">
+                  <label for="name">New content :</label>
+                  <input type="text" #content [(ngModel)]="Postupdate.content" name="content" id="content"
+                  class="form-control" placeholder="Content">
+                </div>
+
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-update" (click)="updatePost()">Update</button>
+          <button type="button" class="btn btn-cancel" (click)="d('cancel')">Cancel</button>
+        </div>
+
+      </ng-template>
+
+<ng-template #content7 let-c="close" let-d="dismiss">
+
+  <div class="modal-header">
+    <h5 class="modal-title">Update Comment </h5>
+    <button type="button" class="close" (click)="d('Cross click')" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+        <div class="modal-body">
+            <form #updateForm="ngForm" (ngSubmit)="updateComment()">
+
+                <div class="form-group">
+                  <label for="name">New content :</label>
+                  <input type="text" #content [(ngModel)]="Commentupdate.content" name="content" id="content"
+                  class="form-control" placeholder="Content">
+                </div>
+
+            </form>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-update" (click)="updateComment()">Update</button>
+          <button type="button" class="btn btn-cancel" (click)="d('cancel')">Cancel</button>
+        </div>
+
+</ng-template>
+
+
+  <ng-template #content1 let-c="close" let-d="dismiss">
+
+    <div class="modal-header">
+      <h5 class="modal-title">Add Post </h5>
+      <button type="button" class="close" (click)="d('Cross click')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+        <div class="modal-body">
+            <form #updateForm="ngForm" (ngSubmit)="addPost()">
+
+                <div class="form-group">
+                  <label for="content">Content :</label>
+                  <input type="text" #content [(ngModel)]="postForm.value.content" name="content" id="content"
+                  class="form-control" placeholder="Content">
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-add" (click)="addPost()">Add</button>
+          <button type="button" class="btn btn-cancel" (click)="d('cancel')">Cancel</button>
+        </div>
+
+      </ng-template>
+
+
+
+      <ng-template #content2 let-c="close" let-d="dismiss">
+
+        <div class="modal-header">
+          <h5 class="modal-title">Add Comment </h5>
+          <button type="button" class="close" (click)="d('Cross click')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form #updateForm="ngForm" (ngSubmit)="addComment()">
+
+                <div class="form-group">
+                  <label for="content">Content :</label>
+                  <input type="text" #content [(ngModel)]="commentForm.value.content" name="content" id="content"
+                  class="form-control" placeholder="Content">
+                </div>
+
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-add" (click)="addComment()">Add</button>
+          <button type="button" class="btn btn-cancel" (click)="d('cancel')">Cancel</button>
+        </div>
+
+      </ng-template>
+
+  </body>
+
+</html>

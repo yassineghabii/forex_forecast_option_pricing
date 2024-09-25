@@ -1,0 +1,51 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://finlogik-postgres:5432/finlogikk
+    username: atou26ag
+    password: qsdffdsq26
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  mail:
+    host: localhost
+    port: 1025
+    username: atou26ag
+    password: atou26ag
+    properties:
+      mail:
+        smtp:
+          trust: "*"
+        auth: true
+        starttls:
+          enabled: true
+        connectiontimeout: 5000
+        timeout: 3000
+        writetimeout: 5000
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: "http://localhost:9090/realms/finlogik"
+application:
+#  security:
+#    jwt:
+#      secret-key: cfd56a93923e4bf19d77e74ae2a11275904adabf32c456ceebdff9157ee65a41
+#      expiration: 86400000 # a day
+#      refresh-token:
+#        expiration: 604800000 # 7 days
+#  mailing:
+#    frontend:
+#      activation-url: http://localhost:4200/activate-account
+
+  file:
+    uploads:
+      photos-output-path: ./uploads
+server:
+  port: 8088
