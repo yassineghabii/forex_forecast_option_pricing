@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prevision</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4">Available Files</h2>
+
+        <!-- Search input -->
+        <input class="form-control mb-4" id="searchInput" type="text" placeholder="Search for files...">
+
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Filename</th>
+                </tr>
+            </thead>
+            <tbody id="filesTable">
+                {% for file in files %}
+                <tr>
+                    <td>
+                        <a href="{{ url_for('static', filename='prevision/' + file) }}" target="_blank">{{ file }}</a>
+                    </td>
+                    <td class="text-end">
+                        <a href="{{ url_for('static', filename='prevision/' + file) }}" download="{{ file }}" class="btn btn-success btn-sm download-btn">Download</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // JavaScript to filter table rows based on search input dynamically
+        document.getElementById('searchInput').addEventListener('input', function() {
+            var input = this.value.toLowerCase();  // Get the search input and convert to lowercase
+            var rows = document.getElementById('filesTable').getElementsByTagName('tr');  // Get all table rows
+
+            // Loop through all table rows
+            for (var i = 0; i < rows.length; i++) {
+                var filename = rows[i].getElementsByTagName('td')[0].innerText.toLowerCase();  // Get the filename and convert to lowercase
+                // Check if the filename includes the search input text
+                if (filename.includes(input)) {
+                    rows[i].style.display = '';  // Show the row if it matches
+                } else {
+                    rows[i].style.display = 'none';  // Hide the row if it doesn't match
+                }
+            }
+        });
+    </script>
+</body>
+</html>

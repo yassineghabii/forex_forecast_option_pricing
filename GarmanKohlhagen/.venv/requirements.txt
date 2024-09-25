@@ -1,0 +1,27 @@
+Flask
+Flask-Cors
+numpy
+pandas
+matplotlib
+scipy
+yfinance
+tensorflow
+scikit-learn
+ta
+pandas-datareader
+schedule
+psycopg2-binary
+flask_sqlalchemy
+flask-migrate
+celery
+redis
+flower
+streamlit
+pandas_ta
+plotly
+stocknews
+requests
+textblob
+beautifulsoup4
+spacy
+en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.2.0/en_core_web_sm-3.2.0.tar.gz

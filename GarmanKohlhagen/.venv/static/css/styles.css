@@ -1,0 +1,47 @@
+body {
+    background-color: #f8f9fa;
+}
+
+h1 {
+    margin-bottom: 40px;
+    color: #343a40;
+}
+
+.form-group label {
+    font-weight: bold;
+    color: #495057;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+#results .card {
+    background-color: #f8f9fa;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 8px;
+}
+
+#results .card-title {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+#results table {
+    margin-top: 20px;
+}
+
+#results th, #results td {
+    text-align: center;
+}
+
+.alert {
+    margin-top: 20px;
+}

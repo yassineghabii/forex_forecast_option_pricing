@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modèle Garman-Kohlhagen pour les Options FX</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Modèle Garman-Kohlhagen pour les Options FX</h1>
+        <form id="optionForm" class="mt-4">
+            <div class="form-row justify-content-center">
+                <div class="form-group col-md-4">
+                    <label for="ticker">Symbole de l'actif sous-jacent</label>
+                    <select id="ticker" name="ticker" class="form-control">
+                        <option value="EURUSD=X">EURUSD=X</option>
+                        <option value="USDJPY=X">USD/JPY</option>
+                        <option value="GBPUSD=X">GBPUSD=X</option>
+                        <option value="AUDUSD=X">AUDUSD=X</option>
+                        <option value="USDCAD=X">USDCAD=X</option>
+                        <option value="USDCHF=X">USDCHF=X</option>
+                        <option value="NZDUSD=X">NZDUSD=X</option>
+                        <option value="EURJPY=X">EURJPY=X</option>
+                        <option value="GBPJPY=X">GBPJPY=X</option>
+                        <option value="EURGBP=X">EURGBP=X</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="option_type">Type d'option (c pour call, p pour put)</label>
+                    <select id="option_type" name="option_type" class="form-control">
+                        <option value="c">Call</option>
+                        <option value="p">Put</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row justify-content-center">
+                <div class="form-group col-md-4">
+                    <label for="k">Prix d'exercice (K)</label>
+                    <input type="number" id="k" name="k" min="0.01" step="0.01" value="110.0" class="form-control">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="t">Temps avant l'échéance (T, en années)</label>
+                    <input type="number" id="t" name="t" min="0.001" step="0.001" value="0.5" class="form-control">
+                </div>
+            </div>
+            <div class="form-row justify-content-center">
+                <div class="form-group col-md-4">
+                    <label for="rf">Taux d'intérêt étranger (rf)</label>
+                    <input type="number" id="rf" name="rf" min="-1" max="1" step="0.01" value="-0.1" class="form-control">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="rd">Taux d'intérêt domestique (rd)</label>
+                    <input type="number" id="rd" name="rd" min="-1" max="1" step="0.01" value="0.05" class="form-control">
+                </div>
+            </div>
+            <div class="form-row justify-content-center">
+                <button type="button" class="btn btn-primary btn-lg" onclick="calculate()">Calculer</button>
+            </div>
+        </form>
+        <div id="results" class="mt-4"></div>
+    </div>
+
+    <script>
+        function calculate() {
+            const form = document.getElementById('optionForm');
+            const formData = new FormData(form);
+            fetch('/calculate', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const results = document.getElementById('results');
+                if (data.error) {
+                    results.innerHTML = `<div class="alert alert-danger" role="alert">Erreur: ${data.error}</div>`;
+                } else {
+                    results.innerHTML = `
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Résultats</h5>
+                                <table class="table table-bordered">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th scope="col">Paramètre</th>
+                                            <th scope="col">Valeur</th>
+                                            <th scope="col">Graphique</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Prix actuel de l'actif sous-jacent</td>
+                                            <td>${data.current_price}</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Volatilité historique</td>
+                                            <td>${data.historical_volatility}</td>
+                                            <td></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Volatilité implicite</td>
+                                            <td>${data.implied_volatility}</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Prix de l'option avec volatilité implicite</td>
+                                            <td>${data.option_price_implied_vol}</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Delta</td>
+                                            <td>${data.delta}</td>
+                                            <td><img src="${data.plots.delta_plot}" alt="Delta Plot" class="img-fluid"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Gamma</td>
+                                            <td>${data.gamma}</td>
+                                            <td><img src="${data.plots.gamma_plot}" alt="Gamma Plot" class="img-fluid"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Theta</td>
+                                            <td>${data.theta}</td>
+                                            <td><img src="${data.plots.theta_plot}" alt="Theta Plot" class="img-fluid"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Vega</td>
+                                            <td>${data.vega}</td>
+                                            <td><img src="${data.plots.vega_plot}" alt="Vega Plot" class="img-fluid"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Rho (domestique)</td>
+                                            <td>${data.rho_domestic}</td>
+                                            <td><img src="${data.plots.rho_domestic_plot}" alt="Rho Domestic Plot" class="img-fluid"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Rho (étranger)</td>
+                                            <td>${data.rho_foreign}</td>
+                                            <td><img src="${data.plots.rho_foreign_plot}" alt="Rho Foreign Plot" class="img-fluid"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Omega</td>
+                                            <td>${data.omega}</td>
+                                            <td><img src="${data.plots.omega_plot}" alt="Omega Plot" class="img-fluid"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Vanna</td>
+                                            <td>${data.vanna}</td>
+                                            <td><img src="${data.plots.vanna_plot}" alt="Vanna Plot" class="img-fluid"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    `;
+                }
+            })
+            .catch(error => {
+                const results = document.getElementById('results');
+                results.innerHTML = `<div class="alert alert-danger" role="alert">Erreur: ${error}</div>`;
+            });
+        }
+    </script>
+</body>
+</html>
